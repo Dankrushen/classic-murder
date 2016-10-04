@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Murder extends JavaPlugin {
+public class Main extends JavaPlugin {
 	public static final int GUN_BAN_TIME = 60;
 	private Match match;
 	public int nextMatchCountdownID = -1;

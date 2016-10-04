@@ -1,6 +1,7 @@
 package com.gmail.vapidlinus.murder.commandexecutors;
 
 import com.gmail.vapidlinus.murder.main.Murder;
+import com.gmail.vapidlinus.murder.tools.ChatContext;
 
 import java.util.HashMap;
 
@@ -21,6 +22,7 @@ public class MCommandExecutor implements CommandExecutor {
 	private void registerCommands() {
 		commands.put("listplayers", new MCommandListMPlayers());
 		commands.put("forcestart", new MCommandForceStartMatch());
+		commands.put("forceend", new MCommandForceEndMatch());
 
 		commands.put("listarenas", new MCommandListArenas());
 
@@ -41,7 +43,18 @@ public class MCommandExecutor implements CommandExecutor {
 						newArgs[i] = args[(i + 1)];
 					}
 					((MCommand) commands.get(s)).execute(sender, newArgs, plugin);
+					return true;
 				}
+			}
+			sender.sendMessage(ChatContext.PREFIX_PLUGIN + "Unknown argument");
+			sender.sendMessage(ChatContext.PREFIX_PLUGIN + "Valid arguments:");
+			for(String o : commands.keySet()) {
+				sender.sendMessage(ChatContext.PREFIX_PLUGIN + ChatContext.COLOR_HIGHLIGHT + o);
+			}
+		} else if(command.getName().equalsIgnoreCase("murder")) {
+			sender.sendMessage(ChatContext.PREFIX_PLUGIN + "Valid arguments:");
+			for(String o : commands.keySet()) {
+				sender.sendMessage(ChatContext.PREFIX_PLUGIN + ChatContext.COLOR_HIGHLIGHT + o);
 			}
 		}
 		return true;

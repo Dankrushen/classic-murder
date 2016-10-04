@@ -7,6 +7,10 @@ import org.bukkit.command.CommandSender;
 
 public class MCommandForceEndMatch extends MCommand {
 	public void execute(CommandSender sender, String[] args, Murder plugin) {
+		if (!plugin.getMatch().isStarted()) {
+			sender.sendMessage(ChatContext.PREFIX_PLUGIN + "Match is already ended.");
+			return;
+		}
 		Tools.sendMessageAll(plugin.getServer(), ChatContext.PREFIX_PLUGIN + "Match was forced to end.");
 		plugin.getMatch().endMatch();
 	}

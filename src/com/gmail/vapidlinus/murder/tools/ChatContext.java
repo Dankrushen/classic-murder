@@ -19,6 +19,7 @@ public class ChatContext {
 	public static final String ERROR_ARENANOTFOUND;
 	public static final String ERROR_NOTENOUGHPLAYERSTOCONTINUE;
 	public static final String ERROR_NOTENOUGHPLAYERSTOSTART;
+	public static final String ERROR_ARENAEXISTS;
 
 	static {
 		// Haha, this came out like a giant mess from the decompiler
@@ -50,9 +51,11 @@ public class ChatContext {
 				.append(COLOR_WARNING).append("Arena not found.").toString();
 		ERROR_NOTENOUGHPLAYERSTOCONTINUE = (new StringBuilder(
 				String.valueOf(PREFIX_PLUGIN))).append(COLOR_HIGHLIGHT)
-				.append("Not enough player to continue the match.").toString();
+				.append("Not enough players to continue the match.").toString();
 		ERROR_NOTENOUGHPLAYERSTOSTART = (new StringBuilder(
 				String.valueOf(PREFIX_PLUGIN))).append(COLOR_HIGHLIGHT)
-				.append("Not enough player to start the match.").toString();
+				.append("Not enough players to start the match.").toString();
+		ERROR_ARENAEXISTS = (new StringBuilder(String.valueOf(PREFIX_PLUGIN)))
+				.append(COLOR_WARNING).append("Arena already exists.").toString();
 	}
 }

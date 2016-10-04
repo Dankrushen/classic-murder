@@ -35,6 +35,7 @@ public class EntityListener implements Listener {
 		event.setCancelled(true);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
 		if (!plugin.getMatch().isGameStarted()) {

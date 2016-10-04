@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -153,7 +155,7 @@ public class PlayerListener implements Listener {
 				return;
 			}
 			player.getWorld().playSound(player.getLocation(),
-					Sound.ITEM_PICKUP, 1.0F, 0.5F);
+					Sound.ENTITY_ITEM_PICKUP, 1.0F, 0.5F);
 			event.getItem().remove();
 		}
 	}
@@ -174,7 +176,14 @@ public class PlayerListener implements Listener {
 					}, 20L);
 		}
 	}
+	
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent e) {
+		if(e.getCause() == DamageCause.FALL) if(e.getEntity() instanceof Player)e.setCancelled(true);
+		return;
+	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -223,7 +232,7 @@ public class PlayerListener implements Listener {
 						arrow.setBounce(false);
 						arrow.setShooter(player);
 						player.getWorld().playSound(arrowLocaction,
-								Sound.FIREWORK_BLAST, 2.5F, 0.5F);
+								Sound.ENTITY_FIREWORK_BLAST, 2.5F, 0.5F);
 
 						gunner.reload();
 					}

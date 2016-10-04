@@ -1,10 +1,13 @@
 package com.gmail.vapidlinus.murder.commandexecutors;
 
+import com.gmail.vapidlinus.murder.main.Match;
 import com.gmail.vapidlinus.murder.main.Murder;
 import com.gmail.vapidlinus.murder.tools.ChatContext;
 import com.gmail.vapidlinus.murder.tools.CustomYaml;
 import com.gmail.vapidlinus.murder.tools.Tools;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,12 @@ public class MCommandArena extends MCommand {
 				listSpawns(player, newArgs, plugin);
 			} else if (args[0].equalsIgnoreCase("addpartspawn")) {
 				addPartSpawn(player, newArgs, plugin);
+			} else if (args[0].equalsIgnoreCase("addarena")) {
+				addArena(player, newArgs, plugin);
+			} else if (args[0].equalsIgnoreCase("removearena")) {
+				removeArena(player, newArgs, plugin);
+			} else if (args[0].equalsIgnoreCase("emptyarena")) {
+				emptyArena(player, newArgs, plugin);
 			}
 		}
 	}
@@ -196,4 +205,88 @@ public class MCommandArena extends MCommand {
 			e.printStackTrace();
 		}
 	}
+	
+	void addArena(Player player, String[] args, Murder plugin) {
+		if (args.length > 1) {
+			player.sendMessage(ChatContext.ERROR_TOOMANYARGUMENTS);
+			return;
+		}
+		if (args.length < 1) {
+			player.sendMessage(ChatContext.ERROR_NOTENOUGHARGUMENTS);
+			return;
+		}
+		File f = new File("plugins/Murder/Arenas/" + args[0] + ".yml");
+		if(f.exists()) {
+			player.sendMessage(ChatContext.ERROR_ARENAEXISTS);
+		} else {
+			Match m = plugin.getMatch();
+			if(m.isStarted()) {
+				Tools.sendMessageAll(plugin.getServer(), ChatContext.PREFIX_PLUGIN + "Match was forced to end.");
+				m.endMatch();
+			}
+			if(!f.getParentFile().exists()) {
+				f.getParentFile().mkdirs();
+			}
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			player.sendMessage(ChatContext.PREFIX_PLUGIN
+					+ "Created arena.");
+		}
+	}
+	
+	void removeArena(Player player, String[] args, Murder plugin) {
+		if (args.length > 1) {
+			player.sendMessage(ChatContext.ERROR_TOOMANYARGUMENTS);
+			return;
+		}
+		if (args.length < 1) {
+			player.sendMessage(ChatContext.ERROR_NOTENOUGHARGUMENTS);
+			return;
+		}
+		File f = new File("plugins/Murder/Arenas/" + args[0] + ".yml");
+		if(!f.exists()) {
+			player.sendMessage(ChatContext.ERROR_ARENANOTFOUND);
+		} else {
+			Match m = plugin.getMatch();
+			if(m.isStarted()) {
+				Tools.sendMessageAll(plugin.getServer(), ChatContext.PREFIX_PLUGIN + "Match was forced to end.");
+				m.endMatch();
+			}
+			f.delete();
+			player.sendMessage(ChatContext.PREFIX_PLUGIN
+					+ "Removed arena.");
+		}
+	}
+	
+	void emptyArena(Player player, String[] args, Murder plugin) {
+		if (args.length > 1) {
+			player.sendMessage(ChatContext.ERROR_TOOMANYARGUMENTS);
+			return;
+		}
+		if (args.length < 1) {
+			player.sendMessage(ChatContext.ERROR_NOTENOUGHARGUMENTS);
+			return;
+		}
+		File f = new File("plugins/Murder/Arenas/" + args[0] + ".yml");
+		if(!f.exists()) {
+			player.sendMessage(ChatContext.ERROR_ARENANOTFOUND);
+		} else {
+			Match m = plugin.getMatch();
+			if(m.isStarted()) {
+				Tools.sendMessageAll(plugin.getServer(), ChatContext.PREFIX_PLUGIN + "Match was forced to end.");
+				m.endMatch();
+			}
+			f.delete();
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			player.sendMessage(ChatContext.PREFIX_PLUGIN
+					+ "Emptied arena.");
+		}
+	} 
 }
